@@ -8,6 +8,9 @@ class ExerciseController < ApplicationController
         @exercise = Exercise.create(name: params[:name], 
             muscle_group: params[:muscle_group]
         )
+        # @exercise.user = current_user
+        # @exercise.save
+        # current_user.save
         redirect "/exercise/#{@exercise.id}"
     end
 
