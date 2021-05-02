@@ -1,0 +1,8 @@
+<h1> This is the Exercise Form </h1>
+
+<form action='/exercises/<%= @exercise.id %>' method="post">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    Name: <input type=text value="<%= @exercise.name %>" name="name">
+    Muscle_group: <input type=text value="<%= @exercise.muscle_group %>" name="muscle_group">
+    <input type=submit>
+<form>

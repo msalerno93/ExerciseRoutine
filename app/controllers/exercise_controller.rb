@@ -23,4 +23,24 @@ class ExerciseController < ApplicationController
         @exercises = Exercise.all
         erb :'/exercise/index'
     end
+
+    get '/exercises/:id/edit' do
+        @exercise = Exercise.find(params[:id])
+        erb :'/exercise/edit'
+    end
+
+    post '/exercises/:id' do
+        @exercise = Exercise.find(params[:id])
+        @exercise.update(
+            name: params[:name], 
+            muscle_group: params[:muscle_group]
+        )
+        redirect "/exercise/#{@exercise.id}"
+    end
+
+    delete '/exercises/:id' do
+        @exercise = Exercise.find(params[:id])
+        @exercise.destroy
+        redirect '/exercises'
+    end
 end
