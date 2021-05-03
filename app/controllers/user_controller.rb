@@ -5,24 +5,33 @@ class UserController < ApplicationController
     end
 
     post '/users/signup' do 
-        @user = User.create(
+
+        if params[:username] == "" && params[:password] == ""
+            redirect "/users/signup"
+        else
+            @user = User.create(
             username: params[:username], 
             password: params[:password]
         )
-        session[:user_id] = @user.id
-        redirect "/users/#{@user.id}"
+            session[:user_id] = @user.id
+            redirect "/users/#{@user.id}"
+        end
     end
 
     get '/users/login' do
         erb :'users/login'
     end
 
-    # post '/users/login' do
-    #     @user = User.find_by(username: params[:username]
-        
-    #     # if params[:password] == @user.password
+    post '/users/login' do
+        @user = User.find_by(username: params[:username])
 
-    # end
+        if @user && @user.authenticate(params[:password])
+            session[:user_id] = @user.id
+            redirect "/users/#{@user.id}"
+        else
+            redirect "/users/login"
+        end
+    end
 
     get '/users/:id' do 
         @user = User.find(params[:id])
