@@ -17,7 +17,6 @@ class UserController < ApplicationController
                 session[:user_id] = @user.id
                 redirect "/users/#{@user.id}"
             else
-                flash[:message] = "Username already taken"
                 redirect to "/users/signup"
             end
         end
@@ -28,7 +27,7 @@ class UserController < ApplicationController
             erb :'/users/login'
         else
             @user = User.find(session[:user_id])
-            redirect "/users/#{@user.id}"
+            redirect "/users"
         end
     end
 
@@ -37,20 +36,28 @@ class UserController < ApplicationController
 
         if @user && @user.authenticate(params[:password])
             session[:user_id] = @user.id
-            redirect "/users/#{@user.id}"
+            redirect "/users"
         else
             redirect "/users/login"
         end
     end
 
-    get '/users/:id' do 
-        @user = User.find(params[:id])
-        erb :'/users/show'
+    get '/users' do 
+        if logged_in?
+            @user = current_user
+            erb :'/users/show'
+        else
+            redirect "/"
+        end
     end
 
     get '/logout' do
-        session.clear
-        redirect "/"
+        if logged_in?
+            session.clear
+            redirect "/"
+        else
+            redirect "/"
+        end
     end
 
 end

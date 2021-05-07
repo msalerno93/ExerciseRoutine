@@ -1,9 +1,17 @@
-<% @exercises.each do |exercise| %>
-
-    Number: <%= exercise.id%><br>
-    Name: <%= exercise.name%><br>
-    Muscle Group: <%= exercise.muscle_group%><br>
-    Username: <%= exercise.user.username%><br>
-
-
+<%if @exercises.length != 0%>
+    <% @exercises.each do |exercise| %>
+        Number: <%= exercise.id%><br>
+        Name: <%= exercise.name%><br>
+        Muscle Group: <%= exercise.muscle_group%><br>
+        Username: <%= exercise.user.username%><br>
+        <a href='/exercises/<%=exercise.id%>/edit'> Edit </a>
+        <br>
+        <br>
+    <%end%>
+<%else%>
+    You have no Exercises!
+    <br>
+    <a href='/exercise/new'> Create New Exercise </a>
 <%end%>
+
+<a href='users/login'> Homepage </a>

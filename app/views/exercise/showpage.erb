@@ -1,7 +1,9 @@
 Exercise Name: <%= @exercise.name%><br>
 Muscle Group: <%= @exercise.muscle_group%>
 
-<form method="post" action="/exercises/<%= @exercise.id %>">
+<form action="/exercises/<%= @exercise.id %>" method="POST">
     <input id="hidden" type="hidden" name="_method" value="DELETE">
     <input type="submit" value="delete">
 </form>
+<br>
+<a href= '/exercises' > Back to Workouts </a>
