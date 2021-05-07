@@ -20,7 +20,7 @@ class ExerciseController < ApplicationController
     end
 
     get '/exercises' do
-        @exercises = Exercise.all
+        @exercise = Exercise.all
         erb :'/exercise/index'
     end
 
@@ -29,7 +29,7 @@ class ExerciseController < ApplicationController
         erb :'/exercise/edit'
     end
 
-    post '/exercises/:id' do
+    patch '/exercises/:id/edit' do
         @exercise = Exercise.find(params[:id])
         @exercise.update(
             name: params[:name], 
@@ -39,8 +39,9 @@ class ExerciseController < ApplicationController
     end
 
     delete '/exercises/:id' do
+        binding.pry
         @exercise = Exercise.find(params[:id])
-        @exercise.destroy
+        @exercise.delete
         redirect '/exercises'
     end
 end
