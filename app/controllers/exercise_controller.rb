@@ -59,7 +59,7 @@ class ExerciseController < ApplicationController
             name: params[:name], 
             muscle_group: params[:muscle_group]
         )
-        redirect "/exercise/#{@exercise.id}"
+        redirect "/exercises"
     end
 
     delete '/exercises/:id' do
