@@ -9,16 +9,20 @@ class ExerciseController < ApplicationController
     end
 
     post '/exercise' do
-        @exercise = Exercise.create(name: params[:name], 
-            muscle_group: params[:muscle_group]
-        )
-        if @exercise.valid?
-            @exercise.user = current_user
-            @exercise.save
-            current_user.save
-            redirect "/exercises"
+        if !current_user.exercises.find_by(name: params[:name])
+            @exercise = Exercise.create(name: params[:name], 
+                muscle_group: params[:muscle_group]
+            )
+            if @exercise.valid?
+                @exercise.user = current_user
+                @exercise.save
+                current_user.save
+                redirect "/exercises"
+            else
+                redirect '/exercise/new'
+            end
         else
-            redirect '/exercise/new'
+            redirect "/exercise/new"
         end
     end
 
