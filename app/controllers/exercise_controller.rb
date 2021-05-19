@@ -59,16 +59,21 @@ class ExerciseController < ApplicationController
 
     patch '/exercises/:id/edit' do
         @exercise = Exercise.find(params[:id])
-        @exercise.update(
-            name: params[:name], 
-            muscle_group: params[:muscle_group]
-        )
-        redirect "/exercises"
+        if @exercise.user == current_user
+            @exercise.update(
+                name: params[:name], 
+                muscle_group: params[:muscle_group]
+            )
+        end
+            redirect "/exercises"
     end
 
     delete '/exercises/:id' do
         @exercise = Exercise.find(params[:id])
-        @exercise.delete
+        if @exercise.user == current_user
+            @exercise.delete
+        end
         redirect '/exercises'
     end
+
 end

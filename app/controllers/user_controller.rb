@@ -9,12 +9,12 @@ class UserController < ApplicationController
         if params[:username] == "" && params[:password] == ""
             redirect "/users/signup"
         else
-            @user = User.new(
+            user = User.new(
             username: params[:username], 
             password: params[:password]
         )
-            if @user.save
-                session[:user_id] = @user.id
+            if user.save
+                session[:user_id] = user.id
                 redirect "/users"
             else
                 redirect to "/users/signup"
@@ -26,16 +26,16 @@ class UserController < ApplicationController
         if !logged_in?
             erb :'/users/login'
         else
-            @user = User.find(session[:user_id])
+            user = User.find(session[:user_id])
             redirect "/users"
         end
     end
 
     post '/users/login' do
-        @user = User.find_by(username: params[:username])
+        user = User.find_by(username: params[:username])
 
-        if @user && @user.authenticate(params[:password])
-            session[:user_id] = @user.id
+        if user && user.authenticate(params[:password])
+            session[:user_id] = user.id
             redirect "/users"
         else
             redirect "/users/login"
@@ -54,10 +54,13 @@ class UserController < ApplicationController
     get '/logout' do
         if logged_in?
             session.clear
-            redirect "/"
-        else
-            redirect "/"
         end
+        redirect "/"
+    end
+
+    get '/users/all' do
+        @users = User.all
+        erb :'/users/all'
     end
 
 end
